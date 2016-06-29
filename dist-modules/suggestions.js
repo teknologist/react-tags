@@ -1,9 +1,10 @@
-"use strict";
+'use strict';
 
 var React = require('react');
+var removeDiacritics = require('diacritics').remove;
 
 var Suggestions = React.createClass({
-    displayName: "Suggestions",
+    displayName: 'Suggestions',
 
     propTypes: {
         query: React.PropTypes.string.isRequired,
@@ -17,9 +18,9 @@ var Suggestions = React.createClass({
     },
     markIt: function markIt(input, query) {
         var escapedRegex = query.trim().replace(/[-\\^$*+?.()|[\]{}]/g, "\\$&");
-        var r = RegExp(escapedRegex, "gi");
+        var r = RegExp(removeDiacritics(escapedRegex), "gi");
         return {
-            __html: input.replace(r, "<mark>$&</mark>")
+            __html: removeDiacritics(input).replace(r, "<mark>$&</mark>")
         };
     },
     shouldRenderSuggestions: function shouldRenderSuggestions(query) {
@@ -31,12 +32,12 @@ var Suggestions = React.createClass({
         var props = this.props;
         var suggestions = this.props.suggestions.map(function (item, i) {
             return React.createElement(
-                "li",
+                'li',
                 { key: i,
                     onClick: props.handleClick.bind(null, i),
                     onMouseOver: props.handleHover.bind(null, i),
                     className: i == props.selectedIndex ? "active" : "" },
-                React.createElement("span", { dangerouslySetInnerHTML: this.markIt(item, props.query) })
+                React.createElement('span', { dangerouslySetInnerHTML: this.markIt(item, props.query) })
             );
         }.bind(this));
 
@@ -47,14 +48,14 @@ var Suggestions = React.createClass({
         }
 
         return React.createElement(
-            "div",
+            'div',
             { className: this.props.classNames.suggestions },
             React.createElement(
-                "ul",
+                'ul',
                 null,
-                " ",
+                ' ',
                 suggestions,
-                " "
+                ' '
             )
         );
     }
