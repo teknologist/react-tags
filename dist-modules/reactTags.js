@@ -88,7 +88,7 @@ var ReactTags = React.createClass({
     },
     filteredSuggestions: function filteredSuggestions(query, suggestions) {
         return suggestions.filter(function (item) {
-            return item.toLowerCase().indexOf(query.toLowerCase()) === 0;
+            return item.toLowerCase().indexOf(query.toLowerCase()) > -1;
         });
     },
     componentWillReceiveProps: function componentWillReceiveProps(props) {
