@@ -11,6 +11,7 @@ var DragDropContext = _require.DragDropContext;
 
 var HTML5Backend = require('react-dnd-html5-backend');
 var merge = require('lodash/fp/merge');
+var removeDiacritics = require('diacritics').remove;
 
 // Constants
 var Keys = {
@@ -88,7 +89,7 @@ var ReactTags = React.createClass({
     },
     filteredSuggestions: function filteredSuggestions(query, suggestions) {
         return suggestions.filter(function (item) {
-            return item.toLowerCase().indexOf(query.toLowerCase()) > -1;
+            return removeDiacritics(item.toLowerCase()).indexOf(removeDiacritics(query.toLowerCase())) > -1;
         });
     },
     componentWillReceiveProps: function componentWillReceiveProps(props) {
